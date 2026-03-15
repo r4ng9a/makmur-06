@@ -1,12 +1,10 @@
 <?php
-// Setup otomatis membaca env Railway
-$host = getenv('MYSQLHOST') ?: 'localhost';
-$user = getenv('MYSQLUSER') ?: 'root';
+$host = getenv('MYSQLHOST')     ?: 'localhost';
+$user = getenv('MYSQLUSER')     ?: 'root';
 $pass = getenv('MYSQLPASSWORD') ?: '';
-$db = getenv('MYSQLDATABASE') ?: 'railway';
+$db   = getenv('MYSQLDATABASE') ?: 'railway';
 $port = (int)(getenv('MYSQLPORT') ?: 3306);
 
-// Koneksi ke database (sudah ada, Railway buat otomatis)
 $conn = new mysqli($host, $user, $pass, $db, $port);
 if ($conn->connect_error) {
     die("Koneksi gagal: " . $conn->connect_error);
