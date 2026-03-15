@@ -1,19 +1,11 @@
-FROM php:8.2-apache
+FROM php:8.2-cli
 
-# Fix "More than one MPM loaded" error
-RUN apt-get update && apt-get install -y \
-    && a2dismod mpm_event mpm_worker 2>/dev/null || true \
-    && a2enmod mpm_prefork \
-    && docker-php-ext-install mysqli pdo pdo_mysql \
-    && a2enmod rewrite
+RUN docker-php-ext-install mysqli pdo pdo_mysql
 
-# Copy semua file ke direktori Apache
-COPY . /var/www/html/
+COPY . /app
 
-# Set permissions
-RUN chown -R www-data:www-data /var/www/html \
-    && chmod -R 755 /var/www/html
+WORKDIR /app
 
-EXPOSE 80
+EXPOSE 8080
 
-CMD ["apache2-foreground"]
+CMD ["php", "-S", "0.0.0.0:8080"]
