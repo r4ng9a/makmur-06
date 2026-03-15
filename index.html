@@ -1,0 +1,1351 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <title>Ninja Data Center - REST API Naruto</title>
+  <style>
+    :root {
+      --primary: #c0392b;
+      --success: #27ae60;
+      --warning: #e67e22;
+      --info: #2980b9;
+      --danger: #e74c3c;
+      --dark: #1a1a2e;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Segoe UI, sans-serif;
+      line-height: 1.6;
+      color: #333;
+      max-width: 1050px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      background: #f0ede5;
+    }
+
+    h1,
+    h2,
+    h3,
+    h4 {
+      color: var(--dark);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, var(--dark) 40%, var(--primary));
+      color: white;
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, .2);
+    }
+
+    .hero h1 {
+      color: white;
+      margin: 0 0 10px;
+      font-size: 2.2rem;
+    }
+
+    .hero p {
+      color: #ccc;
+      margin: 0;
+    }
+
+    .card {
+      background: white;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 20px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, .05);
+      border-left: 4px solid var(--primary);
+    }
+
+    .card.green {
+      border-left-color: var(--success);
+    }
+
+    .card.orange {
+      border-left-color: var(--warning);
+    }
+
+    .card.blue {
+      border-left-color: var(--info);
+    }
+
+    .card.red {
+      border-left-color: var(--danger);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 700;
+      color: white;
+      text-transform: uppercase;
+      margin-right: 6px;
+    }
+
+    .bg-green {
+      background: var(--success);
+    }
+
+    .bg-orange {
+      background: var(--warning);
+    }
+
+    .bg-blue {
+      background: var(--info);
+    }
+
+    .bg-red {
+      background: var(--danger);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 10px 0;
+    }
+
+    th,
+    td {
+      padding: 9px 13px;
+      text-align: left;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+
+    th {
+      background: var(--dark);
+      color: white;
+      font-size: 11px;
+      text-transform: uppercase;
+    }
+
+    code {
+      background: #f4f4f4;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+    }
+
+    .code-box {
+      background: #1d1f21;
+      border-radius: 6px;
+      padding: 14px;
+      margin: 10px 0;
+      position: relative;
+    }
+
+    .code-box pre {
+      margin: 0;
+      color: #e8e8e8;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      overflow-x: auto;
+    }
+
+    .copy-btn {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(255, 255, 255, .15);
+      color: white;
+      border: none;
+      border-radius: 4px;
+      padding: 4px 10px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+
+    .copy-btn:hover {
+      background: var(--primary);
+    }
+
+    .form-group {
+      margin-bottom: 10px;
+    }
+
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      font-size: 12px;
+      color: #555;
+      margin-bottom: 3px;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 13px;
+    }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--info);
+      box-shadow: 0 0 0 3px rgba(41, 128, 185, .1);
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .btn {
+      padding: 9px 20px;
+      border: none;
+      border-radius: 5px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      color: white;
+      text-transform: uppercase;
+    }
+
+    .btn:hover {
+      opacity: .9;
+      transform: translateY(-1px);
+    }
+
+    .btn-green {
+      background: var(--success);
+    }
+
+    .btn-orange {
+      background: var(--warning);
+    }
+
+    .btn-blue {
+      background: var(--info);
+    }
+
+    .btn-red {
+      background: var(--danger);
+    }
+
+    .result {
+      background: #1d1f21;
+      color: #e8e8e8;
+      border-radius: 6px;
+      padding: 14px;
+      margin-top: 12px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      max-height: 280px;
+      overflow-y: auto;
+      display: none;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .info {
+      background: #eaf4fc;
+      border-left: 4px solid var(--info);
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+
+    .warn {
+      background: #fefbe9;
+      border-left: 4px solid #f0e68c;
+      padding: 10px 14px;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 13px;
+    }
+
+    .sep {
+      border: 0;
+      border-top: 2px dashed #ddd;
+      margin: 30px 0;
+    }
+
+    .tabs {
+      display: flex;
+      margin-bottom: -1px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .tab {
+      padding: 8px 16px;
+      background: #eee;
+      border: 1px solid #ddd;
+      border-bottom: none;
+      border-radius: 6px 6px 0 0;
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 600;
+      color: #777;
+    }
+
+    .tab.active {
+      background: white;
+      color: var(--dark);
+    }
+
+    .tab-panel {
+      display: none;
+      border: 1px solid #ddd;
+      padding: 15px;
+      border-radius: 0 6px 6px 6px;
+      background: white;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    .rel-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0;
+      overflow-x: auto;
+      padding: 20px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+
+    .rel-box {
+      border: 2px solid #444;
+      border-radius: 8px;
+      min-width: 150px;
+      background: white;
+    }
+
+    .rel-head {
+      background: var(--dark);
+      color: white;
+      font-weight: 700;
+      padding: 8px 12px;
+      border-radius: 6px 6px 0 0;
+      font-size: 13px;
+      text-align: center;
+    }
+
+    .rel-body {
+      padding: 10px 12px;
+      font-family: Consolas, monospace;
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    .pk {
+      color: #e67e22;
+      font-weight: 700;
+    }
+
+    .fkr {
+      color: var(--danger);
+      font-weight: 600;
+    }
+
+    .fkb {
+      color: var(--info);
+      font-weight: 600;
+    }
+
+    .arrows {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0 10px;
+      gap: 8px;
+      margin-top: 25px;
+    }
+
+    .atag {
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 6px;
+      border-radius: 3px;
+      color: white;
+      white-space: nowrap;
+    }
+
+    .ar {
+      background: var(--danger);
+    }
+
+    .ab {
+      background: var(--info);
+    }
+  </style>
+</head>
+
+<body>
+  <div class="hero">
+    <h1>Ninja Data Center API</h1>
+    <p>Dokumentasi dan Playground REST API Naruto Shippuden<br>
+      3 tabel berelasi: Desa - Clan - Shinobi | PHP Native + MySQL</p>
+  </div>
+
+  <div class="card">
+    <h2>Informasi Server</h2>
+    <div class="grid-2">
+      <div>
+        <h4>Base URL</h4>
+        <div class="code-box"><button class="copy-btn" onclick="cp('burl')">Copy</button>
+          <pre id="burl">https://makmurapi06.infinityfree.me/</pre>
+        </div>
+      </div>
+      <div>
+        <h4>Akses</h4>
+        <span class="badge bg-orange">Publik - Tanpa API Key</span>
+        <div class="info" style="margin-top:10px"><strong>Relasi:</strong> <code>desa</code> - <code>clan</code> (FK:
+          desa_id) - <code>shinobi</code> (FK: clan_id, desa_id)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Diagram Relasi Database</h2>
+    <div class="rel-row">
+      <div class="rel-box">
+        <div class="rel-head">DESA</div>
+        <div class="rel-body"><span class="pk">id (PK)</span><br>nama_desa<br>kepala_desa<br>lokasi_negara<br>simbol
+        </div>
+      </div>
+      <div class="arrows">
+        <div style="text-align:center"><span class="atag ar">clan.desa_id</span><br><big
+            style="color:var(--danger)">&larr;</big></div>
+        <div style="text-align:center;margin-top:6px"><span class="atag ab">shinobi.desa_id</span><br><big
+            style="color:var(--info)">&larr;</big></div>
+      </div>
+      <div class="rel-box">
+        <div class="rel-head">CLAN</div>
+        <div class="rel-body"><span class="pk">id (PK)</span><br>nama_clan<br><span class="fkr">desa_id
+            (FK)</span><br>ketua_clan<br>jutsu_khas</div>
+      </div>
+      <div class="arrows">
+        <div style="text-align:center"><span class="atag ar">shinobi.clan_id</span><br><big
+            style="color:var(--danger)">&larr;</big></div>
+      </div>
+      <div class="rel-box">
+        <div class="rel-head">SHINOBI</div>
+        <div class="rel-body"><span class="pk">id (PK)</span><br>nama_shinobi<br><span class="fkr">clan_id
+            (FK-&gt;clan)</span><br><span class="fkb">desa_id
+            (FK-&gt;desa)</span><br>rank<br>elemen_chakra<br>jumlah_misi_selesai</div>
+      </div>
+    </div>
+    <div class="info" style="margin-top:12px">
+      <strong>3 Relasi Aktif:</strong>
+      &nbsp;<span class="atag ar">clan.desa_id &rarr; desa.id</span> setiap clan punya 1 desa &nbsp;|&nbsp;
+      <span class="atag ar">shinobi.clan_id &rarr; clan.id</span> setiap shinobi punya 1 clan &nbsp;|&nbsp;
+      <span class="atag ab">shinobi.desa_id &rarr; desa.id</span> shinobi berelasi langsung ke desa
+      <br><small>Semua menggunakan ON DELETE CASCADE</small>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>Daftar Endpoint</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Method</th>
+          <th>Action / Tujuan</th>
+          <th>Parameter</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge bg-green">GET</span></td>
+          <td>Semua Shinobi (JOIN)</td>
+          <td><code>?action=getAll</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-green">GET</span></td>
+          <td>Cari by ID</td>
+          <td><code>?action=getById&amp;id=REG-001</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-green">GET</span></td>
+          <td>Pencarian Fleksibel</td>
+          <td><code>?action=search&amp;nama=...&amp;clan=...&amp;desa=...&amp;rank=...&amp;elemen=...</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-green">GET</span></td>
+          <td>Semua Desa</td>
+          <td><code>?action=getDesa</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-green">GET</span></td>
+          <td>Semua Clan</td>
+          <td><code>?action=getClan</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-green">GET</span></td>
+          <td>Total / Statistik / Top N</td>
+          <td><code>?action=count | stats | top&amp;limit=5</code></td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-orange">POST</span></td>
+          <td>Tambah Shinobi Baru</td>
+          <td>Body JSON (semua kolom)</td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-blue">PUT</span></td>
+          <td>Update Data Shinobi</td>
+          <td>Body JSON (id + kolom yang diubah)</td>
+        </tr>
+        <tr>
+          <td><span class="badge bg-red">DELETE</span></td>
+          <td>Hapus Fleksibel</td>
+          <td>Body JSON (id / nama / clan / desa / rank / elemen)</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <hr class="sep">
+
+  <!-- GET -->
+  <div class="card green">
+    <h2><span class="badge bg-green">GET</span> Ambil dan Cari Data</h2>
+    <div class="tabs">
+      <div class="tab active" onclick="switchTab('get','quick',this)">Aksi Cepat</div>
+      <div class="tab" onclick="switchTab('get','search',this)">Pencarian</div>
+      <div class="tab" onclick="switchTab('get','byid',this)">Cari by ID</div>
+      <div class="tab" onclick="switchTab('get','ref',this)">Referensi</div>
+    </div>
+    <div class="tab-panel active" id="get-quick">
+      <p>Klik tombol untuk langsung mengambil data:</p>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;">
+        <button class="btn btn-green" onclick="doGet('getAll')">Semua Shinobi</button>
+        <button class="btn btn-green" onclick="doGet('count')">Total</button>
+        <button class="btn btn-green" onclick="doGet('stats')">Statistik</button>
+        <button class="btn btn-green" onclick="doGet('top','','',5)">Top 5</button>
+        <button class="btn btn-green" onclick="doGet('getDesa')">Semua Desa</button>
+        <button class="btn btn-green" onclick="doGet('getClan')">Semua Clan</button>
+      </div>
+    </div>
+    <div class="tab-panel" id="get-search">
+      <p>Cari berdasarkan kolom apapun. Bisa dikombinasikan:</p>
+      <div class="grid-3">
+        <div class="form-group"><label>Nama Shinobi</label><input type="text" id="sNama" placeholder="contoh: Naruto">
+        </div>
+        <div class="form-group"><label>Nama Clan</label><input type="text" id="sClan" placeholder="contoh: Uchiha">
+        </div>
+        <div class="form-group"><label>Nama Desa</label><input type="text" id="sDesa" placeholder="contoh: Konoha">
+        </div>
+      </div>
+      <div class="grid-3">
+        <div class="form-group"><label>Rank</label>
+          <select id="sRank">
+            <option value="">-- Semua Rank --</option>
+            <option>Genin</option>
+            <option>Chunin</option>
+            <option>Jonin</option>
+            <option>Anbu</option>
+            <option>Kage</option>
+            <option>Missing-Nin</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Elemen Chakra</label><input type="text" id="sElemen" placeholder="contoh: Api">
+        </div>
+        <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-green"
+            onclick="doSearch()" style="width:100%">Cari Shinobi</button></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="get-byid">
+      <p>Cari profil lengkap berdasarkan ID Registrasi:</p>
+      <div class="grid-3">
+        <div class="form-group"><label>ID Registrasi</label><input type="text" id="gById" value="REG-001"
+            placeholder="REG-001"></div>
+        <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-green"
+            onclick="doGet('getById',document.getElementById('gById').value)">Cari Profil</button></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="tab-panel" id="get-ref">
+      <p>Lihat data tabel referensi Desa dan Clan:</p>
+      <div style="display:flex;gap:8px;">
+        <button class="btn btn-green" onclick="doGet('getDesa')">Tampilkan Semua Desa</button>
+        <button class="btn btn-green" onclick="doGet('getClan')">Tampilkan Semua Clan</button>
+      </div>
+    </div>
+    <div id="getResult" class="result"></div>
+    <div class="warn" style="margin-top:10px">
+      <strong>Proses GET:</strong> Browser kirim HTTP GET &rarr; api.php baca ?action= &rarr; PHP jalankan SELECT JOIN 3
+      tabel &rarr; hasil dikonversi ke JSON dan dikirim.
+    </div>
+  </div>
+
+  <!-- POST -->
+  <div class="card orange">
+    <h2><span class="badge bg-orange">POST</span> Tambah Shinobi Baru</h2>
+    <p>Semua field bertanda (*) wajib diisi. Elemen dan Misi bersifat opsional.</p>
+    <div class="grid-3">
+      <div class="form-group"><label>ID Registrasi *</label><input type="text" id="pId" value="REG-011"
+          placeholder="REG-011"></div>
+      <div class="form-group"><label>Nama Shinobi *</label><input type="text" id="pNama" value="Rock Lee"
+          placeholder="Rock Lee"></div>
+      <div class="form-group"><label>Rank *</label>
+        <select id="pRank">
+          <option>Genin</option>
+          <option>Chunin</option>
+          <option selected>Jonin</option>
+          <option>Anbu</option>
+          <option>Kage</option>
+          <option>Missing-Nin</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="form-group"><label>Clan * (ID)</label>
+        <select id="pClan">
+          <option value="1">1 - Uchiha</option>
+          <option value="2">2 - Uzumaki</option>
+          <option value="3">3 - Hyuga</option>
+          <option value="4">4 - Nara</option>
+          <option value="5">5 - Akimichi</option>
+          <option value="6">6 - Yamanaka</option>
+          <option value="7">7 - Sabaku</option>
+          <option value="8">8 - Kaguya</option>
+          <option value="9">9 - Hozuki</option>
+          <option value="10">10 - Yotsuki</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Desa * (ID)</label>
+        <select id="pDesa">
+          <option value="1">1 - Konohagakure</option>
+          <option value="2">2 - Sunagakure</option>
+          <option value="3">3 - Kirigakure</option>
+          <option value="4">4 - Kumogakure</option>
+          <option value="5">5 - Iwagakure</option>
+          <option value="6">6 - Amegakure</option>
+          <option value="7">7 - Otogakure</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Elemen Chakra</label><input type="text" id="pElemen" value="Taijutsu"
+          placeholder="Api, Angin"></div>
+    </div>
+    <div class="grid-3">
+      <div class="form-group"><label>Jumlah Misi Selesai</label><input type="number" id="pMisi" value="95"
+          placeholder="0"></div>
+      <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-orange"
+          onclick="doPost()" style="width:100%">Daftarkan Shinobi</button></div>
+      <div></div>
+    </div>
+    <div id="postResult" class="result"></div>
+    <div class="warn" style="margin-top:10px">
+      <strong>Proses POST:</strong> Form kirim HTTP POST + body JSON &rarr; api.php validasi field wajib &rarr; INSERT
+      INTO shinobi &rarr; Response 201 Created.
+    </div>
+  </div>
+
+  <!-- PUT -->
+  <div class="card blue">
+    <h2><span class="badge bg-blue">PUT</span> Update Data Shinobi</h2>
+    <p>Masukkan ID yang ingin diubah, lalu isi field yang ingin diperbarui. Field kosong tidak akan diubah.</p>
+    <div class="grid-3">
+      <div class="form-group"><label>ID Shinobi (WAJIB) *</label><input type="text" id="uId" value="REG-001"
+          placeholder="REG-001"></div>
+      <div class="form-group"><label>Nama Baru</label><input type="text" id="uNama"
+          placeholder="Kosongkan jika tidak diubah"></div>
+      <div class="form-group"><label>Rank Baru</label>
+        <select id="uRank">
+          <option value="">-- Tidak diubah --</option>
+          <option>Genin</option>
+          <option>Chunin</option>
+          <option>Jonin</option>
+          <option>Anbu</option>
+          <option>Kage</option>
+          <option selected>Hokage</option>
+          <option>Missing-Nin</option>
+        </select>
+      </div>
+    </div>
+    <div class="grid-3">
+      <div class="form-group"><label>Clan Baru (ID)</label>
+        <select id="uClan">
+          <option value="">-- Tidak diubah --</option>
+          <option value="1">1 - Uchiha</option>
+          <option value="2">2 - Uzumaki</option>
+          <option value="3">3 - Hyuga</option>
+          <option value="4">4 - Nara</option>
+          <option value="5">5 - Akimichi</option>
+          <option value="6">6 - Yamanaka</option>
+          <option value="7">7 - Sabaku</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Desa Baru (ID)</label>
+        <select id="uDesa">
+          <option value="">-- Tidak diubah --</option>
+          <option value="1">1 - Konohagakure</option>
+          <option value="2">2 - Sunagakure</option>
+          <option value="3">3 - Kirigakure</option>
+          <option value="4">4 - Kumogakure</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Elemen Chakra Baru</label><input type="text" id="uElemen"
+          placeholder="Kosongkan jika tidak diubah"></div>
+    </div>
+    <div class="grid-3">
+      <div class="form-group"><label>Jumlah Misi Baru</label><input type="number" id="uMisi" value="999"
+          placeholder="Kosongkan jika tidak diubah"></div>
+      <div class="form-group" style="display:flex;align-items:flex-end"><button class="btn btn-blue" onclick="doPut()"
+          style="width:100%">Update Shinobi</button></div>
+      <div></div>
+    </div>
+    <div id="putResult" class="result"></div>
+    <div class="warn" style="margin-top:10px">
+      <strong>Proses PUT:</strong> Form kirim HTTP PUT + JSON &rarr; Cek shinobi ada &rarr; UPDATE dinamis (hanya kolom
+      yang dikirim) &rarr; Response 200 OK.
+    </div>
+  </div>
+
+  <!-- DELETE -->
+  <div class="card red">
+    <h2><span class="badge bg-red">DELETE</span> Hapus Shinobi</h2>
+    <p>Hapus secara permanen. Isi minimal 1 kriteria. Bisa kombinasikan beberapa kriteria sekaligus.</p>
+    <div class="grid-3">
+      <div class="form-group"><label>ID Registrasi</label><input type="text" id="dId" placeholder="contoh: REG-011">
+      </div>
+      <div class="form-group"><label>Nama Shinobi</label><input type="text" id="dNama" placeholder="contoh: Rock Lee">
+      </div>
+      <div class="form-group"><label>Nama Clan</label><input type="text" id="dClan" placeholder="contoh: Uchiha"></div>
+    </div>
+    <div class="grid-3">
+      <div class="form-group"><label>Nama Desa</label><input type="text" id="dDesa" placeholder="contoh: Konohagakure">
+      </div>
+      <div class="form-group"><label>Rank</label>
+        <select id="dRank">
+          <option value="">-- Semua / Tidak difilter --</option>
+          <option>Genin</option>
+          <option>Chunin</option>
+          <option>Jonin</option>
+          <option>Anbu</option>
+          <option>Kage</option>
+          <option>Missing-Nin</option>
+        </select>
+      </div>
+      <div class="form-group"><label>Elemen Chakra</label><input type="text" id="dElemen" placeholder="contoh: Api">
+      </div>
+    </div>
+    <button class="btn btn-red" onclick="doDelete()">Hapus Shinobi</button>
+    <div id="deleteResult" class="result"></div>
+    <div class="warn" style="margin-top:10px">
+      <strong>Proses DELETE:</strong> Form kirim HTTP DELETE + JSON kriteria &rarr; API bangun WHERE dinamis &rarr;
+      Hitung yang cocok &rarr; DELETE &rarr; Response berisi daftar yang terhapus.
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- CARA KERJA -->
+  <div class="card">
+    <h2>Cara Kerja REST API Ini</h2>
+    <h3>Arsitektur Sistem</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>File</th>
+          <th>Fungsi</th>
+          <th>Peran</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>koneksi.php</code></td>
+          <td>Koneksi Database</td>
+          <td>Buka koneksi MySQL via mysqli, di-include oleh api.php</td>
+        </tr>
+        <tr>
+          <td><code>setup.php</code></td>
+          <td>Installer</td>
+          <td>Buat database, 3 tabel berelasi, isi 10+ data dummy. Jalankan sekali.</td>
+        </tr>
+        <tr>
+          <td><code>api.php</code></td>
+          <td>API Router</td>
+          <td>Terima HTTP request, proses SQL, kembalikan response JSON</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:20px">Alur Proses Setiap Method</h3>
+    <div class="warn"><strong>GET:</strong> Client kirim HTTP GET &rarr; api.php baca ?action= &rarr; PHP jalankan
+      SELECT JOIN 3 tabel &rarr; konversi array ke JSON &rarr; kirim response</div>
+    <div class="warn"><strong>POST:</strong> Client kirim HTTP POST + body JSON &rarr; api.php baca php://input &rarr;
+      validasi field wajib &rarr; INSERT INTO shinobi &rarr; response 201</div>
+    <div class="warn"><strong>PUT:</strong> Client kirim HTTP PUT + body JSON (wajib id) &rarr; cek shinobi ada &rarr;
+      bangun UPDATE dinamis (hanya kolom yang dikirim) &rarr; response 200</div>
+    <div class="warn"><strong>DELETE:</strong> Client kirim HTTP DELETE + body JSON &rarr; bangun WHERE dinamis dari
+      kriteria &rarr; preview data yang akan dihapus &rarr; DELETE &rarr; response + daftar terhapus</div>
+
+    <h3 style="margin-top:20px">Format Response JSON</h3>
+    <div class="code-box"><button class="copy-btn" onclick="cp('rf')">Copy</button>
+      <pre id="rf">{
+  "meta": {
+    "status": 200,
+    "message": "Daftar Seluruh Shinobi",
+    "timestamp": "2026-03-15T08:42:20.000Z"
+  },
+  "data": [ ... ]
+}</pre>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- SOURCE CODE -->
+  <div class="card">
+    <h2>Source Code Lengkap</h2>
+
+    <h3>1. koneksi.php</h3>
+    <div class="code-box"><button class="copy-btn" onclick="cp('c1')">Copy</button>
+      <pre id="c1">&lt;?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+$db   = "naruto_api";
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn-&gt;connect_error) {
+    die(json_encode(["error" =&gt; "Koneksi gagal: " . $conn-&gt;connect_error]));
+}
+?&gt;</pre>
+    </div>
+
+    <h3 style="margin-top:20px">2. setup.php &mdash; Buat Database, Tabel, dan Data Dummy</h3>
+    <p>Jalankan sekali: <code>php setup.php</code> atau buka <code>http://localhost:8000/setup.php</code></p>
+    <div class="code-box"><button class="copy-btn" onclick="cp('c2')">Copy</button>
+      <pre id="c2" style="max-height:420px;overflow-y:auto">&lt;?php
+$host = "localhost";
+$user = "root";
+$pass = "";
+
+// Koneksi tanpa database (karena database belum ada)
+$conn = new mysqli($host, $user, $pass);
+if ($conn-&gt;connect_error) {
+    die("Koneksi gagal: " . $conn-&gt;connect_error);
+}
+
+// 1. Buat Database
+$sql = "CREATE DATABASE IF NOT EXISTS naruto_api";
+if ($conn-&gt;query($sql) === TRUE) {
+    echo "Database 'naruto_api' berhasil disiapkan.&lt;br&gt;";
+}
+$conn-&gt;select_db("naruto_api");
+
+// 2. Drop tabel lama (urutan penting: child dulu)
+$conn-&gt;query("DROP TABLE IF EXISTS shinobi");
+$conn-&gt;query("DROP TABLE IF EXISTS clan");
+$conn-&gt;query("DROP TABLE IF EXISTS desa");
+
+// 3. Buat Tabel Desa (Parent)
+$conn-&gt;query("CREATE TABLE desa (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nama_desa VARCHAR(100) UNIQUE,
+    kepala_desa VARCHAR(100),
+    lokasi_negara VARCHAR(100),
+    simbol VARCHAR(50)
+)");
+echo "Tabel 'desa' berhasil dibuat.&lt;br&gt;";
+
+// 4. Buat Tabel Clan (Child of Desa)
+$conn-&gt;query("CREATE TABLE clan (
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    nama_clan VARCHAR(100) UNIQUE,
+    desa_id INT,
+    ketua_clan VARCHAR(100),
+    jutsu_khas VARCHAR(150),
+    FOREIGN KEY (desa_id) REFERENCES desa(id) ON DELETE CASCADE
+)");
+echo "Tabel 'clan' berhasil dibuat.&lt;br&gt;";
+
+// 5. Buat Tabel Shinobi (Child of Clan DAN Desa)
+$conn-&gt;query("CREATE TABLE shinobi (
+    id VARCHAR(50) PRIMARY KEY,
+    nama_shinobi VARCHAR(150),
+    clan_id INT,
+    desa_id INT,
+    \`rank\` VARCHAR(50),
+    elemen_chakra VARCHAR(100),
+    jumlah_misi_selesai INT DEFAULT 0,
+    FOREIGN KEY (clan_id) REFERENCES clan(id) ON DELETE CASCADE,
+    FOREIGN KEY (desa_id) REFERENCES desa(id) ON DELETE CASCADE
+)");
+echo "Tabel 'shinobi' berhasil dibuat.&lt;br&gt;&lt;br&gt;";
+
+// ===== INSERT 10 DESA =====
+$data_desa = [
+    "('Konohagakure', 'Hokage', 'Negara Api', 'Daun')",
+    "('Sunagakure', 'Kazekage', 'Negara Angin', 'Pasir')",
+    "('Kirigakure', 'Mizukage', 'Negara Air', 'Kabut')",
+    "('Kumogakure', 'Raikage', 'Negara Petir', 'Awan')",
+    "('Iwagakure', 'Tsuchikage', 'Negara Tanah', 'Batu')",
+    "('Amegakure', 'Pain', 'Negara Hujan', 'Hujan')",
+    "('Otogakure', 'Orochimaru', 'Negara Bunyi', 'Nada')",
+    "('Takigakure', 'Shibuki', 'Negara Air Terjun', 'Air Terjun')",
+    "('Kusagakure', 'Muku', 'Negara Rumput', 'Rumput')",
+    "('Uzushiogakure', 'Ashina Uzumaki', 'Negara Pusaran Air', 'Pusaran')"
+];
+foreach ($data_desa as $v)
+    $conn-&gt;query("INSERT INTO desa (nama_desa, kepala_desa, lokasi_negara, simbol) VALUES $v");
+echo "10 data Desa berhasil diinsert.&lt;br&gt;";
+
+// ===== INSERT 10 CLAN (desa_id: 1=Konoha, 2=Suna, 3=Kiri, 4=Kumo) =====
+$data_clan = [
+    "('Uchiha', 1, 'Fugaku Uchiha', 'Sharingan, Katon')",
+    "('Uzumaki', 1, 'Kushina Uzumaki', 'Fuinjutsu, Cakra Besar')",
+    "('Hyuga', 1, 'Hiashi Hyuga', 'Byakugan, Juken')",
+    "('Nara', 1, 'Shikaku Nara', 'Kagemane no Jutsu')",
+    "('Akimichi', 1, 'Choza Akimichi', 'Baika no Jutsu')",
+    "('Yamanaka', 1, 'Inoichi Yamanaka', 'Shintenshin no Jutsu')",
+    "('Sabaku', 2, 'Rasa', 'Jiton, Pasir Besi')",
+    "('Kaguya', 3, 'Kaguya Patriarch', 'Shikotsumyaku')",
+    "('Hozuki', 3, 'Mangetsu Hozuki', 'Suika no Jutsu')",
+    "('Yotsuki', 4, 'A', 'Nintaijutsu')"
+];
+foreach ($data_clan as $v)
+    $conn-&gt;query("INSERT INTO clan (nama_clan, desa_id, ketua_clan, jutsu_khas) VALUES $v");
+echo "10 data Clan berhasil diinsert.&lt;br&gt;";
+
+// ===== INSERT 10 SHINOBI =====
+// clan_id: 1=Uchiha, 2=Uzumaki, 3=Hyuga, 4=Nara, 5=Akimichi, 6=Yamanaka, 7=Sabaku, 8=Kaguya, 9=Hozuki, 10=Yotsuki
+// desa_id: 1=Konoha, 2=Suna, 3=Kiri, 4=Kumo
+$data_shinobi = [
+    "('REG-001', 'Naruto Uzumaki', 2, 1, 'Kage', 'Angin', 150)",
+    "('REG-002', 'Sasuke Uchiha', 1, 1, 'Jonin', 'Api, Petir', 120)",
+    "('REG-003', 'Itachi Uchiha', 1, 1, 'Anbu', 'Api, Air', 340)",
+    "('REG-004', 'Hinata Hyuga', 3, 1, 'Chunin', 'Listrik, Api', 80)",
+    "('REG-005', 'Neji Hyuga', 3, 1, 'Jonin', 'Air, Tanah', 110)",
+    "('REG-006', 'Shikamaru Nara', 4, 1, 'Jonin', 'Api, Tanah', 200)",
+    "('REG-007', 'Choji Akimichi', 5, 1, 'Chunin', 'Api, Tanah', 85)",
+    "('REG-008', 'Ino Yamanaka', 6, 1, 'Chunin', 'Air, Tanah', 90)",
+    "('REG-009', 'Gaara', 7, 2, 'Kage', 'Angin, Tanah', 210)",
+    "('REG-010', 'Suigetsu Hozuki', 9, 3, 'Missing-Nin', 'Air', 75)"
+];
+foreach ($data_shinobi as $v)
+    $conn-&gt;query("INSERT INTO shinobi (id, nama_shinobi, clan_id, desa_id, \`rank\`, elemen_chakra, jumlah_misi_selesai) VALUES $v");
+echo "10 data Shinobi berhasil diinsert.&lt;br&gt;";
+
+echo "&lt;br&gt;&lt;h3&gt;Setup Selesai! Database, tabel, dan data dummy berhasil dibuat.&lt;/h3&gt;";
+$conn-&gt;close();
+?&gt;</pre>
+    </div>
+
+    <h3 style="margin-top:20px">3. api.php &mdash; Router CRUD Lengkap (GET / POST / PUT / DELETE)</h3>
+    <p>File utama API. Mendukung 8 endpoint GET, POST (insert), PUT (update dinamis), DELETE (hapus fleksibel).</p>
+    <div class="code-box"><button class="copy-btn" onclick="cp('c3')">Copy</button>
+      <pre id="c3" style="max-height:500px;overflow-y:auto">&lt;?php
+header("Content-Type: application/json");
+header("Access-Control-Allow-Origin: *");
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE");
+header("Access-Control-Allow-Headers: Content-Type, Authorization, X-Requested-With");
+
+include 'koneksi.php';
+$method = $_SERVER['REQUEST_METHOD'];
+
+function sendResponse($status, $message, $data = null) {
+    $r = ["meta" =&gt; ["status"=&gt;$status, "message"=&gt;$message, "timestamp"=&gt;gmdate("Y-m-d\TH:i:s.v\Z")]];
+    if ($data !== null) $r["data"] = $data;
+    http_response_code($status);
+    echo json_encode($r);
+    exit;
+}
+
+switch ($method) {
+
+  // ==================== GET ====================
+  case 'GET':
+    if (!isset($_GET['action'])) {
+        $res = $conn-&gt;query("SELECT s.*, c.nama_clan, d.nama_desa FROM shinobi s JOIN clan c ON s.clan_id=c.id JOIN desa d ON s.desa_id=d.id");
+        sendResponse(200, "Daftar Shinobi", $res-&gt;fetch_all(MYSQLI_ASSOC));
+    }
+    $action = $_GET['action'];
+
+    if ($action == 'getAll') {
+        $res = $conn-&gt;query("SELECT s.id, s.nama_shinobi, s.\`rank\`, s.elemen_chakra, s.jumlah_misi_selesai, c.nama_clan, c.jutsu_khas, d.nama_desa, d.lokasi_negara FROM shinobi s JOIN clan c ON s.clan_id=c.id JOIN desa d ON s.desa_id=d.id");
+        $data = $res-&gt;fetch_all(MYSQLI_ASSOC);
+        foreach ($data as &amp;$row) $row['jumlah_misi_selesai'] = (int)$row['jumlah_misi_selesai'];
+        sendResponse(200, "Daftar Seluruh Shinobi", $data);
+    }
+    elseif ($action == 'getById' &amp;&amp; isset($_GET['id'])) {
+        $id = $conn-&gt;real_escape_string($_GET['id']);
+        $res = $conn-&gt;query("SELECT s.id, s.nama_shinobi, s.\`rank\`, s.elemen_chakra, s.jumlah_misi_selesai, c.nama_clan, c.jutsu_khas, d.nama_desa, d.lokasi_negara FROM shinobi s JOIN clan c ON s.clan_id=c.id JOIN desa d ON s.desa_id=d.id WHERE s.id='$id'");
+        $data = $res-&gt;fetch_assoc();
+        if ($data) { $data['jumlah_misi_selesai'] = (int)$data['jumlah_misi_selesai']; sendResponse(200, "Profil Shinobi", $data); }
+        else sendResponse(404, "Shinobi tidak ditemukan");
+    }
+    elseif ($action == 'count') {
+        $res = $conn-&gt;query("SELECT COUNT(*) as total FROM shinobi");
+        sendResponse(200, "Total Shinobi", ["total_shinobi" =&gt; (int)$res-&gt;fetch_assoc()['total']]);
+    }
+    elseif ($action == 'stats') {
+        $res = $conn-&gt;query("SELECT COUNT(*) as total, MAX(jumlah_misi_selesai) as max_misi, ROUND(AVG(jumlah_misi_selesai),0) as avg_misi FROM shinobi");
+        $d = $res-&gt;fetch_assoc();
+        sendResponse(200, "Statistik", ["total_shinobi"=&gt;(int)$d['total'], "misi"=&gt;["rata_rata"=&gt;(int)$d['avg_misi'], "rekor"=&gt;(int)$d['max_misi']]]);
+    }
+    elseif ($action == 'top') {
+        $limit = isset($_GET['limit']) ? (int)$_GET['limit'] : 10;
+        $res = $conn-&gt;query("SELECT s.id, s.nama_shinobi, s.\`rank\`, s.jumlah_misi_selesai, c.nama_clan, d.nama_desa FROM shinobi s JOIN clan c ON s.clan_id=c.id JOIN desa d ON s.desa_id=d.id ORDER BY s.jumlah_misi_selesai DESC LIMIT $limit");
+        $data = $res-&gt;fetch_all(MYSQLI_ASSOC);
+        foreach ($data as &amp;$row) $row['jumlah_misi_selesai'] = (int)$row['jumlah_misi_selesai'];
+        sendResponse(200, "Top $limit Shinobi", $data);
+    }
+    elseif ($action == 'search') {
+        $where = [];
+        if (isset($_GET['nama'])) $where[] = "s.nama_shinobi LIKE '%".$conn-&gt;real_escape_string($_GET['nama'])."%'";
+        if (isset($_GET['clan'])) $where[] = "c.nama_clan LIKE '%".$conn-&gt;real_escape_string($_GET['clan'])."%'";
+        if (isset($_GET['desa'])) $where[] = "d.nama_desa LIKE '%".$conn-&gt;real_escape_string($_GET['desa'])."%'";
+        if (isset($_GET['rank'])) $where[] = "s.\`rank\` LIKE '%".$conn-&gt;real_escape_string($_GET['rank'])."%'";
+        if (isset($_GET['elemen'])) $where[] = "s.elemen_chakra LIKE '%".$conn-&gt;real_escape_string($_GET['elemen'])."%'";
+        $sql = "SELECT s.id, s.nama_shinobi, s.\`rank\`, s.elemen_chakra, s.jumlah_misi_selesai, c.nama_clan, d.nama_desa FROM shinobi s JOIN clan c ON s.clan_id=c.id JOIN desa d ON s.desa_id=d.id";
+        if (count($where) &gt; 0) $sql .= " WHERE ".implode(" AND ", $where);
+        $data = $conn-&gt;query($sql)-&gt;fetch_all(MYSQLI_ASSOC);
+        sendResponse(200, "Hasil Pencarian (".count($data)." ditemukan)", $data);
+    }
+    elseif ($action == 'getDesa') {
+        sendResponse(200, "Daftar Desa", $conn-&gt;query("SELECT * FROM desa")-&gt;fetch_all(MYSQLI_ASSOC));
+    }
+    elseif ($action == 'getClan') {
+        sendResponse(200, "Daftar Clan", $conn-&gt;query("SELECT c.*, d.nama_desa FROM clan c JOIN desa d ON c.desa_id=d.id")-&gt;fetch_all(MYSQLI_ASSOC));
+    }
+    else { sendResponse(400, "Action tidak valid"); }
+    break;
+
+  // ==================== POST ====================
+  case 'POST':
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!$data) $data = $_POST;
+    if (isset($data['id'], $data['nama_shinobi'], $data['clan_id'], $data['desa_id'], $data['rank'])) {
+        $id = $conn-&gt;real_escape_string($data['id']);
+        $nama = $conn-&gt;real_escape_string($data['nama_shinobi']);
+        $clan_id = (int)$data['clan_id'];
+        $desa_id = (int)$data['desa_id'];
+        $rank = $conn-&gt;real_escape_string($data['rank']);
+        $elemen = isset($data['elemen_chakra']) ? $conn-&gt;real_escape_string($data['elemen_chakra']) : '-';
+        $misi = isset($data['jumlah_misi_selesai']) ? (int)$data['jumlah_misi_selesai'] : 0;
+        $sql = "INSERT INTO shinobi (id, nama_shinobi, clan_id, desa_id, \`rank\`, elemen_chakra, jumlah_misi_selesai) VALUES ('$id','$nama',$clan_id,$desa_id,'$rank','$elemen',$misi)";
+        if ($conn-&gt;query($sql)) sendResponse(201, "Shinobi berhasil didaftarkan", ["id"=&gt;$id, "nama_shinobi"=&gt;$nama]);
+        else sendResponse(500, "Database Error: ".$conn-&gt;error);
+    } else {
+        sendResponse(400, "Field wajib: id, nama_shinobi, clan_id, desa_id, rank");
+    }
+    break;
+
+  // ==================== PUT ====================
+  case 'PUT':
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!isset($data['id'])) sendResponse(400, "Field 'id' wajib dikirim");
+    $id = $conn-&gt;real_escape_string($data['id']);
+    $check = $conn-&gt;query("SELECT id FROM shinobi WHERE id='$id'");
+    if ($check-&gt;num_rows == 0) sendResponse(404, "Shinobi '$id' tidak ditemukan");
+    $fields = [];
+    if (isset($data['nama_shinobi'])) $fields[] = "nama_shinobi='".$conn-&gt;real_escape_string($data['nama_shinobi'])."'";
+    if (isset($data['clan_id'])) $fields[] = "clan_id=".(int)$data['clan_id'];
+    if (isset($data['desa_id'])) $fields[] = "desa_id=".(int)$data['desa_id'];
+    if (isset($data['rank'])) $fields[] = "\`rank\`='".$conn-&gt;real_escape_string($data['rank'])."'";
+    if (isset($data['elemen_chakra'])) $fields[] = "elemen_chakra='".$conn-&gt;real_escape_string($data['elemen_chakra'])."'";
+    if (isset($data['jumlah_misi_selesai'])) $fields[] = "jumlah_misi_selesai=".(int)$data['jumlah_misi_selesai'];
+    if (count($fields) == 0) sendResponse(400, "Tidak ada field untuk di-update");
+    if ($conn-&gt;query("UPDATE shinobi SET ".implode(",",$fields)." WHERE id='$id'"))
+        sendResponse(200, "Shinobi '$id' berhasil diperbarui");
+    else sendResponse(500, "Database Error: ".$conn-&gt;error);
+    break;
+
+  // ==================== DELETE ====================
+  case 'DELETE':
+    $data = json_decode(file_get_contents("php://input"), true);
+    if (!$data) $data = [];
+    if (isset($_GET['id'])) $data['id'] = $_GET['id'];
+    $where = [];
+    if (!empty($data['id'])) $where[] = "s.id='".$conn-&gt;real_escape_string($data['id'])."'";
+    if (!empty($data['nama_shinobi'])) $where[] = "s.nama_shinobi LIKE '%".$conn-&gt;real_escape_string($data['nama_shinobi'])."%'";
+    if (!empty($data['clan'])) {
+        $v = $conn-&gt;real_escape_string($data['clan']);
+        $cr = $conn-&gt;query("SELECT id FROM clan WHERE nama_clan LIKE '%$v%'");
+        $cids = []; while ($row=$cr-&gt;fetch_assoc()) $cids[]=(int)$row['id'];
+        if (count($cids)&gt;0) $where[] = "s.clan_id IN (".implode(',',$cids).")";
+        else sendResponse(404, "Clan '$v' tidak ditemukan");
+    }
+    if (!empty($data['desa'])) {
+        $v = $conn-&gt;real_escape_string($data['desa']);
+        $dr = $conn-&gt;query("SELECT id FROM desa WHERE nama_desa LIKE '%$v%'");
+        $dids = []; while ($row=$dr-&gt;fetch_assoc()) $dids[]=(int)$row['id'];
+        if (count($dids)&gt;0) $where[] = "s.desa_id IN (".implode(',',$dids).")";
+        else sendResponse(404, "Desa '$v' tidak ditemukan");
+    }
+    if (!empty($data['rank'])) $where[] = "s.\`rank\`='".$conn-&gt;real_escape_string($data['rank'])."'";
+    if (!empty($data['elemen_chakra'])) $where[] = "s.elemen_chakra LIKE '%".$conn-&gt;real_escape_string($data['elemen_chakra'])."%'";
+    if (count($where)==0) sendResponse(400, "Minimal 1 kriteria harus dikirim");
+    $w = implode(" AND ", $where);
+    $cnt = $conn-&gt;query("SELECT COUNT(*) as t FROM shinobi s WHERE $w")-&gt;fetch_assoc()['t'];
+    if ((int)$cnt == 0) sendResponse(404, "Tidak ada shinobi yang cocok");
+    $prev = $conn-&gt;query("SELECT s.id, s.nama_shinobi FROM shinobi s WHERE $w")-&gt;fetch_all(MYSQLI_ASSOC);
+    if ($conn-&gt;query("DELETE s FROM shinobi s WHERE $w"))
+        sendResponse(200, "$cnt shinobi berhasil dihapus", ["total_dihapus"=&gt;(int)$cnt, "data_terhapus"=&gt;$prev]);
+    else sendResponse(500, "Database Error: ".$conn-&gt;error);
+    break;
+
+  default:
+    sendResponse(405, "Method tidak diizinkan. Gunakan: GET, POST, PUT, DELETE");
+}
+$conn-&gt;close();
+?&gt;</pre>
+    </div>
+  </div>
+
+
+  <hr class="sep">
+
+  <!-- DATA UJI -->
+  <div class="card">
+    <h2>Data Uji Coba CRUD (Postman)</h2>
+
+    <h3><span class="badge bg-green">GET</span> URL Siap Pakai</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Tujuan</th>
+          <th>URL</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Semua Shinobi</td>
+          <td><code>GET http://localhost:8000/api.php?action=getAll</code></td>
+        </tr>
+        <tr>
+          <td>Cari Naruto</td>
+          <td><code>GET http://localhost:8000/api.php?action=getById&amp;id=REG-001</code></td>
+        </tr>
+        <tr>
+          <td>Cari Sasuke</td>
+          <td><code>GET http://localhost:8000/api.php?action=getById&amp;id=REG-002</code></td>
+        </tr>
+        <tr>
+          <td>Search by Nama</td>
+          <td><code>GET http://localhost:8000/api.php?action=search&amp;nama=Uchiha</code></td>
+        </tr>
+        <tr>
+          <td>Search by Rank</td>
+          <td><code>GET http://localhost:8000/api.php?action=search&amp;rank=Jonin</code></td>
+        </tr>
+        <tr>
+          <td>Search by Desa</td>
+          <td><code>GET http://localhost:8000/api.php?action=search&amp;desa=Konoha</code></td>
+        </tr>
+        <tr>
+          <td>Semua Desa</td>
+          <td><code>GET http://localhost:8000/api.php?action=getDesa</code></td>
+        </tr>
+        <tr>
+          <td>Semua Clan</td>
+          <td><code>GET http://localhost:8000/api.php?action=getClan</code></td>
+        </tr>
+        <tr>
+          <td>Statistik</td>
+          <td><code>GET http://localhost:8000/api.php?action=stats</code></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:20px"><span class="badge bg-orange">POST</span> Body JSON</h3>
+    <div class="code-box"><button class="copy-btn" onclick="cp('tp1')">Copy</button>
+      <pre id="tp1">{
+  "id": "REG-011",
+  "nama_shinobi": "Rock Lee",
+  "clan_id": 3,
+  "desa_id": 1,
+  "rank": "Jonin",
+  "elemen_chakra": "Taijutsu",
+  "jumlah_misi_selesai": 95
+}</pre>
+    </div>
+
+    <h3 style="margin-top:20px"><span class="badge bg-blue">PUT</span> Body JSON</h3>
+    <div class="code-box"><button class="copy-btn" onclick="cp('tp2')">Copy</button>
+      <pre id="tp2">{
+  "id": "REG-001",
+  "rank": "Hokage",
+  "jumlah_misi_selesai": 999
+}</pre>
+    </div>
+
+    <h3 style="margin-top:20px"><span class="badge bg-red">DELETE</span> Body JSON (6 cara)</h3>
+    <div class="grid-2">
+      <div>
+        <p><strong>Hapus by ID:</strong></p>
+        <div class="code-box"><button class="copy-btn" onclick="cp('td1')">Copy</button>
+          <pre id="td1">{ "id": "REG-011" }</pre>
+        </div>
+        <p><strong>Hapus by Clan:</strong></p>
+        <div class="code-box"><button class="copy-btn" onclick="cp('td3')">Copy</button>
+          <pre id="td3">{ "clan": "Hozuki" }</pre>
+        </div>
+        <p><strong>Hapus by Rank:</strong></p>
+        <div class="code-box"><button class="copy-btn" onclick="cp('td5')">Copy</button>
+          <pre id="td5">{ "rank": "Missing-Nin" }</pre>
+        </div>
+      </div>
+      <div>
+        <p><strong>Hapus by Nama:</strong></p>
+        <div class="code-box"><button class="copy-btn" onclick="cp('td2')">Copy</button>
+          <pre id="td2">{ "nama_shinobi": "Rock Lee" }</pre>
+        </div>
+        <p><strong>Hapus by Desa:</strong></p>
+        <div class="code-box"><button class="copy-btn" onclick="cp('td4')">Copy</button>
+          <pre id="td4">{ "desa": "Kirigakure" }</pre>
+        </div>
+        <p><strong>Hapus by Elemen:</strong></p>
+        <div class="code-box"><button class="copy-btn" onclick="cp('td6')">Copy</button>
+          <pre id="td6">{ "elemen_chakra": "Api" }</pre>
+        </div>
+      </div>
+    </div>
+    <div class="info" style="margin-top:10px"><strong>Perhatian:</strong> Hapus by Desa/Clan/Rank akan menghapus SEMUA
+      shinobi yang cocok. Gunakan GET dulu untuk melihat data sebelum DELETE.</div>
+  </div>
+
+  <hr class="sep">
+
+  <!-- HOSTING -->
+  <div class="card">
+    <h2>Panduan Hosting di InfinityFree</h2>
+
+    <h3>Persiapan</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Yang Dibutuhkan</th>
+          <th>Keterangan</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>Akun InfinityFree</td>
+          <td>Daftar gratis di <strong>infinityfree.com</strong></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>FileZilla (FTP Client)</td>
+          <td>Download gratis di filezilla-project.org</td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>File proyek</td>
+          <td>index.html, api.php, koneksi.php</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 style="margin-top:20px">Langkah 1 - Daftar dan Buat Akun</h3>
+    <div class="warn">1. Buka infinityfree.com &rarr; klik Register dan verifikasi email<br>2. Login ke
+      dash.infinityfree.com<br>3. Klik "Create Account" &rarr; pilih domain gratis (.rf.gd atau .wuaze.com)<br>4. Tunggu
+      akun aktif (1-5 menit)</div>
+
+    <h3 style="margin-top:20px">Langkah 2 - Buat Database MySQL</h3>
+    <div class="warn">1. Di dashboard klik <strong>MySQL Databases</strong><br>2. Isi nama database &rarr; klik Create
+      Database<br>3. Catat: <strong>Database Host</strong>, <strong>Database Name</strong>, <strong>Username</strong>,
+      <strong>Password</strong><br>4. Buka phpMyAdmin &rarr; pilih database &rarr; tab SQL &rarr; paste query CREATE
+      TABLE dari setup.php
+    </div>
+
+    <h3 style="margin-top:20px">Langkah 3 - Edit koneksi.php</h3>
+    <p>Ganti isi koneksi.php sesuai data dari panel InfinityFree:</p>
+    <div class="code-box"><button class="copy-btn" onclick="cp('hk')">Copy</button>
+      <pre id="hk">&lt;?php
+$host = "sql123.infinityfree.com";  // dari panel MySQL
+$user = "if0_xxxxxxxx";             // username database
+$pass = "password_kamu";            // password database
+$db   = "if0_xxxxxxxx_naruto_api";  // nama lengkap database
+$conn = new mysqli($host, $user, $pass, $db);
+if ($conn-&gt;connect_error) {
+    die(json_encode(["error" =&gt; $conn-&gt;connect_error]));
+}
+?&gt;</pre>
+    </div>
+
+    <h3 style="margin-top:20px">Langkah 4 - Upload via FileZilla</h3>
+    <div class="warn">1. Buka FileZilla<br>2. Info FTP dari panel InfinityFree &rarr; FTP
+      Accounts:<br>&nbsp;&nbsp;&bull; Host: <code>ftpupload.net</code><br>&nbsp;&nbsp;&bull; Username dan Password
+      sesuai panel<br>&nbsp;&nbsp;&bull; Port: 21<br>3. Klik Quickconnect<br>4. Navigasi ke folder <code>htdocs/</code>
+      di panel kanan<br>5. Upload: <code>index.html</code>, <code>api.php</code>, <code>koneksi.php</code><br>6. Tunggu
+      selesai</div>
+
+    <h3 style="margin-top:20px">Langkah 5 - Uji API Online</h3>
+    <div class="warn">1. Buka phpMyAdmin &rarr; paste query INSERT dari setup.php untuk isi data<br>2. Test di browser:
+      <code>https://namadomain.rf.gd/api.php?action=getAll</code><br>3. Test di Postman: ganti localhost:8000 dengan
+      domain InfinityFree<br>4. Test halaman web: <code>https://namadomain.rf.gd/index.html</code>
+    </div>
+
+    <h3 style="margin-top:20px">Troubleshooting</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Masalah</th>
+          <th>Solusi</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Error koneksi database</td>
+          <td>Cek hostname, username, password di panel MySQL InfinityFree</td>
+        </tr>
+        <tr>
+          <td>PUT/DELETE tidak bekerja</td>
+          <td>InfinityFree shared hosting kadang blokir - coba via Postman langsung</td>
+        </tr>
+        <tr>
+          <td>File tidak muncul</td>
+          <td>Pastikan upload ke folder htdocs/ bukan root</td>
+        </tr>
+        <tr>
+          <td>CORS error</td>
+          <td>Sudah ada header Access-Control-Allow-Origin: * di api.php</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="info" style="margin-top:10px"><strong>Tips:</strong> Setelah hosting online, ubah URL di konstanta API
+      di bagian script dari localhost:8000 ke domain InfinityFree agar form interaktif langsung terhubung ke server
+      online.</div>
+  </div>
+
+  <script>
+    const API = 'api.php';
+    function show(id, data) { const b = document.getElementById(id); b.textContent = JSON.stringify(data, null, 2); b.classList.add('show'); }
+    function cp(id) { navigator.clipboard.writeText(document.getElementById(id).innerText).then(() => { event.target.innerText = 'Copied!'; event.target.style.background = '#27ae60'; setTimeout(() => { event.target.innerText = 'Copy'; event.target.style.background = ''; }, 2000); }); }
+    function switchTab(sec, name, el) { document.querySelectorAll('[id^="' + sec + '-"]').forEach(p => p.classList.remove('active')); document.getElementById(sec + '-' + name).classList.add('active'); el.closest('.card').querySelectorAll('.tab').forEach(t => t.classList.remove('active')); el.classList.add('active'); }
+    async function doGet(action, id, x, limit) { let u = API + '?action=' + action; if (id) u += '&id=' + id; if (limit) u += '&limit=' + limit; try { const r = await fetch(u); show('getResult', await r.json()); } catch (e) { show('getResult', { error: e.message }); } }
+    async function doSearch() { let u = API + '?action=search'; const n = document.getElementById('sNama').value, c = document.getElementById('sClan').value, d = document.getElementById('sDesa').value, r = document.getElementById('sRank').value, e = document.getElementById('sElemen').value; if (n) u += '&nama=' + encodeURIComponent(n); if (c) u += '&clan=' + encodeURIComponent(c); if (d) u += '&desa=' + encodeURIComponent(d); if (r) u += '&rank=' + encodeURIComponent(r); if (e) u += '&elemen=' + encodeURIComponent(e); try { const res = await fetch(u); show('getResult', await res.json()); } catch (e) { show('getResult', { error: e.message }); } }
+    async function doPost() { const b = { id: document.getElementById('pId').value, nama_shinobi: document.getElementById('pNama').value, clan_id: parseInt(document.getElementById('pClan').value), desa_id: parseInt(document.getElementById('pDesa').value), rank: document.getElementById('pRank').value, elemen_chakra: document.getElementById('pElemen').value, jumlah_misi_selesai: parseInt(document.getElementById('pMisi').value) || 0 }; try { const r = await fetch(API, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) }); show('postResult', await r.json()); } catch (e) { show('postResult', { error: e.message }); } }
+    async function doPut() { const b = { id: document.getElementById('uId').value }; const n = document.getElementById('uNama').value, r = document.getElementById('uRank').value, c = document.getElementById('uClan').value, d = document.getElementById('uDesa').value, e = document.getElementById('uElemen').value, m = document.getElementById('uMisi').value; if (n) b.nama_shinobi = n; if (r) b.rank = r; if (c) b.clan_id = parseInt(c); if (d) b.desa_id = parseInt(d); if (e) b.elemen_chakra = e; if (m) b.jumlah_misi_selesai = parseInt(m); try { const res = await fetch(API, { method: 'PUT', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) }); show('putResult', await res.json()); } catch (e) { show('putResult', { error: e.message }); } }
+    async function doDelete() { const b = {}; const id = document.getElementById('dId').value, n = document.getElementById('dNama').value, c = document.getElementById('dClan').value, d = document.getElementById('dDesa').value, r = document.getElementById('dRank').value, e = document.getElementById('dElemen').value; if (id) b.id = id; if (n) b.nama_shinobi = n; if (c) b.clan = c; if (d) b.desa = d; if (r) b.rank = r; if (e) b.elemen_chakra = e; if (Object.keys(b).length === 0) { show('deleteResult', { error: 'Isi minimal 1 kriteria' }); return; } try { const res = await fetch(API, { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(b) }); show('deleteResult', await res.json()); } catch (e) { show('deleteResult', { error: e.message }); } }
+  </script>
+</body>
+
+</html>
